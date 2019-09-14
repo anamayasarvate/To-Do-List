@@ -1,0 +1,36 @@
+{% extends "todo/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form class="pr-5 my-2 mx-5 my-lg-2" method = "POST">
+    	{% csrf_token %}
+    	{{ form|crispy }}
+      	<button class="btn btn-primary my-2 my-sm-2" type="submit">Add to the list</button>
+    </form>
+    <div style = "margin:30px 48px">
+    	<table class = "table table-bordered">
+    		<thead>
+    			<tr>
+    				<th style = "font-size:20px">Task</th>
+    				<th style = "font-size:20px">Cross/Uncross</th>
+    				<th style = "font-size:20px">Delete</th>
+    			</tr>
+    		</thead>
+    	{% for object in object_list %}
+    		<tbody>
+    			<tr>
+    				{% if  object.check %}
+    					<td style = "text-decoration: line-through;"><a href="{% url 'update' object.id %}">{{ object.item }}</a></td>
+    					<td><a href="{% url 'cross-or-uncross' object.id %}">Uncross</a></td>
+    				{% else %}
+    					<td><a href="{% url 'update' object.id %}">{{ object.item }}</a></td>
+    					<td><a href="{% url 'cross-or-uncross' object.id %}">Cross</a></td>
+    				{% endif %}
+    					<td><a href="{% url 'delete' object.id %}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a></td>
+    				</form>
+    			</tr>
+    		</tbody>
+    	{% endfor %}
+    	</table>
+    </div>
+
+{% endblock content %}
